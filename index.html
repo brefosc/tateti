@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Tateti by bruno</title>
+  <style type="text/css">
+        body        {          font-size:20px;        }
+        table, td, tr        {          border: 1px solid black;        }
+        table        {          width:400px;        }
+        td        {          height:75px;     float:center;   align-content: center;}
+        input        {          height:50px;      width:60px;       font-size:20px;    align-content: center;    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Tateti </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div id="turno"></div>
+    <table class="table">
+
+      <tr>
+        <td><input id="0" class="casillero btn btn-primary" type="button"></input></td>
+        <td><input id="1" class="casillero btn btn-primary" type="button"></input></td>
+        <td><input id="2" class="casillero btn btn-primary" type="button"></input></td>
+      </tr>
+      <tr>
+        <td><input  id="3" class="casillero btn btn-primary" type="button"></input></td>
+        <td><input  id="4" class="casillero btn btn-primary" type="button"></input></td>
+        <td><input  id="5" class="casillero btn btn-primary" type="button"></input></td>
+      </tr>
+      <tr>
+        <td><input  id="6" class="casillero btn btn-primary" type="button"></input></td>
+        <td><input  id="7"  class="casillero btn btn-primary" type="button"></input></td>
+        <td><input  id="8" class="casillero btn btn-primary" type="button"></input></td>
+      </tr>
+    </table>
+    </div>
+</div>
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script >
+    
+    let casilleros = $(".casillero");
+    //let casillerosLibres = $('.casillero');
+
+    //turno para jugar de a dos 
+    let turno = 1; 
+
+    let selJ1 = [];
+    let selJ2 = [];
+    let ocupados = [];
+
+    let empate = 0;
+
+    actualizaTurno();
+
+    function actualizaTurno()
+    {
+      let cadenaTurno = "Turno de jugador " + turno;
+      $("#turno").text(cadenaTurno);
+    }
+
+
+
+    function confirmaGanador(array, target)
+    {
+
+
+
+    }
+
+    function checkeaGanador()
+    {
+      let ganar = [['0','1','2'],['3','4','5'],['6','7','8'],['0','3','6'],['1','4','7'],['2','5','8'],['0','4','8'],['2','4','6']];
+      //buscar si selYo o selPC coinciden tienen alguno de los elementos de ganar
+      //let coinciden = 0; 
+
+      if (empate == 9)
+      {
+        alert("empate");
+        location.reload();
+      }
+
+
+
+      let checker = function(arr, target) 
+      {
+        return target.every(v => arr.includes(v));
+      }
+    
+      for (var i = 0; i < ganar.length ; i++) 
+      {
+        //console.log(checker(selJ1, ganar[i]));
+
+        if (checker(selJ2, ganar[i]) == true)
+        {
+          alert("el jugador 2 ganó");
+          location.reload();
+        }
+
+
+        if (checker(selJ1, ganar[i]) == true)
+        {
+          alert("el jugador 1 ganó");
+          location.reload();
+
+        }
+      }
+
+
+}
+
+    
+  $('.casillero').click(function()
+  {
+    //turno para jugar de a dos 
+    if (turno == 1 )
+    {  
+      if (jQuery.inArray(this.id,ocupados) == -1) 
+      {
+        $(this).prop('value', 'X');  
+
+        selJ1.push(this.id);
+
+        ocupados.push(this.id);
+
+        empate++;
+        turno = 2; 
+      }
+      else
+      {
+        console.log("casillero ocupado");
+
+      }
+    }
+    else
+    {
+      if (jQuery.inArray(this.id,ocupados) == -1) 
+      {
+        $(this).prop('value',"O");  
+
+        selJ2.push(this.id);
+
+        ocupados.push(this.id);
+        empate++;
+        turno = 1; 
+      }
+      else
+      {
+        console.log("casillero ocupado");
+      }
+
+    }
+
+    //console.log(ocupados);
+    //console.log(" J1: "+selJ1);
+    //console.log(" J2: " + selJ2);
+    actualizaTurno();
+    checkeaGanador();
+    //alert(casilleros[0].value);
+
+
+    //juegaPC();
+  });     
+  </script>
+</body>
+</html>
